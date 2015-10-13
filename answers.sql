@@ -297,3 +297,78 @@ orders made by 'phyllis@demizz.edu'. Use a subselect to do this.
 
 
 SELECT id, status, order_total FROM Orders WHERE customer_id = (SELECT id FROM Customers WHERE email = 'phyllis@demizz.edu');
+
+
+==========
+22
+
+-----
+
+Write a query that shows the id, status, and order total for all orders
+made by 'phyllis@demizz.edu'. Use a join to do this.
+
+-----
+
+
+SELECT Orders.id, Orders.status, Orders.order_total FROM Customers JOIN Orders ON (Customers.id = Orders.customer_id) WHERE Customers.email = 'phyllis@demizz.edu';
+
+
+==========
+23
+
+-----
+
+Write a query that shows all columns that were attached to order #2725.
+
+-----
+
+
+SELECT * FROM Order_items WHERE order_id = 2725;
+
+
+==========
+24
+
+-----
+
+Write a query that shows the common_name, melon_type, quantity,
+unit_price and total_price for all the melons in order #2725.
+
+-----
+
+
+SELECT Melons.common_name, Melons.melon_type, Order_items.quantity, Order_items.unit_price, Order_items.total_price FROM Order_items JOIN Melons ON (Order_items.melon_id = Melons.id) WHERE Order_items.order_id = 2725;
+
+
+==========
+25
+
+-----
+
+Write a query that shows the total amount of revenue that comes from
+internet orders.
+
+-----
+
+
+SELECT SUM (order_total) FROM Orders WHERE salesperson_id IS NULL;
+
+
+==========
+26
+
+-----
+
+Challenge: Produce a list of all salespeople and the total amount of orders
+they've sold, while calculating a 15% commission on all of their orders.
+Include their given name, surname, the total of all their sales, and their
+commission. Only report one row per salesperson. Include salespeople who have
+not made any sales.
+
+You will need 'left join' (http://sqlzoo.net/wiki/LEFT_JOIN) and 'group by'
+(http://sqlzoo.net/wiki/SELECT_.._GROUP_BY) clauses to finish this one.
+
+-----
+
+
+SELECT Salespeople.givenname, Salespeople.surname, SUM(Orders.order_total), SUM(Orders.order_total) * .15 FROM Salespeople LEFT JOIN Orders ON (Salespeople.id = Orders.salesperson_id) GROUP BY Salespeople.id;
